@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Cinery</string>
+    <string name="error_message">Sorry an error occurred</string>
+    <string name="action_sort">sort</string>
+    <string name="popular">Popular</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="cinery_preference">Cinery Preference</string>
+    <string name="movies_mode_pref">Movies mode pref</string>
+</resources>
