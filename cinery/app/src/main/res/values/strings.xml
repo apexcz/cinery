@@ -6,4 +6,5 @@
     <string name="top_rated">Top Rated</string>
     <string name="cinery_preference">Cinery Preference</string>
     <string name="movies_mode_pref">Movies mode pref</string>
+    <string name="action_share">Share</string>
 </resources>

@@ -13,6 +13,7 @@ import com.example.chineduoty.cinery.R;
 import com.example.chineduoty.cinery.models.Movie;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,7 +55,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         return lstMovies.size();
     }
 
-    public void updateAdapter(List<Movie> movies){
+    public void updateAdapter(ArrayList<Movie> movies){
         lstMovies = movies;
         notifyDataSetChanged();
     }

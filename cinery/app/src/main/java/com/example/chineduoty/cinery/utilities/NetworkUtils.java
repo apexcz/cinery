@@ -20,7 +20,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
-    private final static String API_KEY_VALUE = "YOUR API_KEY HERE";
+    private final static String API_KEY_VALUE = "YOUR API KEY";
 
     public static URL buildUrl(String mode){
         Uri builtUri = Uri.parse(Constants.BASE_URL).buildUpon()

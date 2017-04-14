@@ -14,6 +14,7 @@ public class Constants {
     public static final String BASE_URL = "https://api.themoviedb.org/3/movie/";
     public static final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/";
     public static final String IMAGE_SIZE = "w185/";
+    public static final String BIG_IMAGE_SIZE = "w185/";
     public static final String POPULAR = "popular";
     public static final String TOP_RATED = "top_rated";
 

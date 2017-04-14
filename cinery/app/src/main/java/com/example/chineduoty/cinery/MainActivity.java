@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
     private TextView errorTv;
     private ProgressBar moviesLoader;
     private MoviesAdapter moviesAdapter;
+    ArrayList<Movie> movies;
     BaseUtils baseUtils;
     PrefUtils prefUtils;
     Gson gson = new Gson();
@@ -68,12 +69,16 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         moviesRV.addItemDecoration(itemDecoration);
 
 
+        modePref = prefUtils.readPrefString(this.getString(R.string.movies_mode_pref), Constants.POPULAR);
         if(savedInstanceState != null && savedInstanceState.containsKey("moviesStateKey"))
         {
-
+            movies = savedInstanceState.getParcelableArrayList("moviesStateKey");
+            showMovies();
+            moviesAdapter.updateAdapter(movies);
         }
-        modePref = prefUtils.readPrefString(this.getString(R.string.movies_mode_pref),Constants.POPULAR);
-        loadMovieData();
+        else {
+            loadMovieData();
+        }
     }
 
     @Override
@@ -115,6 +120,12 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList("moviesStateKey",movies);
+        super.onSaveInstanceState(outState);
+    }
+
     private void loadMovieData(){
         if(baseUtils.isOnline()) {
             new FetchMoviesTask().execute(modePref);
@@ -141,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         startActivity(intent);
     }
 
-    public class FetchMoviesTask extends AsyncTask<String,Void,List<Movie>>{
+    public class FetchMoviesTask extends AsyncTask<String,Void,ArrayList<Movie>>{
 
         @Override
         protected void onPreExecute() {
@@ -150,8 +161,8 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         }
 
         @Override
-        protected List<Movie> doInBackground(String... params) {
-            List<Movie> lstMovie = new ArrayList<Movie>();
+        protected ArrayList<Movie> doInBackground(String... params) {
+            ArrayList<Movie> lstMovie = new ArrayList<Movie>();
 
             String mode = Constants.POPULAR;
             if(params.length == 1)
@@ -164,9 +175,12 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
 
                 JSONObject responseObject = new JSONObject(jsonResponse);
                 JSONArray resultsArray = responseObject.getJSONArray("results");
+                if(resultsArray == null)
+                    return null;
                 for (int i = 0; i < resultsArray.length(); i++) {
                     lstMovie.add(gson.fromJson(resultsArray.getJSONObject(i).toString(), Movie.class));
                 }
+                movies = lstMovie;
                 return lstMovie;
             }
             catch (IOException ex){
@@ -180,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         }
 
         @Override
-        protected void onPostExecute(List<Movie> movies) {
+        protected void onPostExecute(ArrayList<Movie> movies) {
             super.onPostExecute(movies);
             moviesLoader.setVisibility(View.INVISIBLE);
             if(movies != null && movies.size() > 0){

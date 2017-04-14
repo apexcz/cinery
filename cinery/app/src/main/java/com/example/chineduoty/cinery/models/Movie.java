@@ -12,11 +12,17 @@ public class Movie implements Parcelable {
     private String original_title;
     private String poster_path;
     private String overview;
+    private String backdrop_path;
+    private  String release_date;
+    private float vote_average;
 
     protected Movie(Parcel in) {
         original_title = in.readString();
         poster_path = in.readString();
         overview = in.readString();
+        backdrop_path = in.readString();
+        release_date = in.readString();
+        vote_average = in.readFloat();
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -55,6 +61,29 @@ public class Movie implements Parcelable {
         this.overview = overview;
     }
 
+    public String getBackdrop_path() {
+        return backdrop_path;
+    }
+
+    public void setBackdrop_path(String backdrop_path) {
+        this.backdrop_path = backdrop_path;
+    }
+
+    public String getRelease_date() {
+        return release_date;
+    }
+
+    public void setRelease_date(String release_date) {
+        this.release_date = release_date;
+    }
+
+    public float getVote_average() {
+        return vote_average;
+    }
+
+    public void setVote_average(float vote_average) {
+        this.vote_average = vote_average;
+    }
 
     @Override
     public int describeContents() {
@@ -66,6 +95,9 @@ public class Movie implements Parcelable {
         parcel.writeString(original_title);
         parcel.writeString(poster_path);
         parcel.writeString(overview);
+        parcel.writeString(backdrop_path);
+        parcel.writeString(release_date);
+        parcel.writeFloat(vote_average);
     }
 
 }
