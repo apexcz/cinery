@@ -17,6 +17,7 @@ public class Constants {
     public static final String BIG_IMAGE_SIZE = "w185/";
     public static final String POPULAR = "popular";
     public static final String TOP_RATED = "top_rated";
+    public static final String FAVOURITE = "favourite";
 
     public final static String API_KEY = "api_key";
 

@@ -26,7 +26,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     private List<Movie> lstMovies;
     private final MoviesAdapterOnClickHandler mClickHandler;
 
-    public MoviesAdapter(Context context, MoviesAdapterOnClickHandler clickHandler){
+    public MoviesAdapter(List<Movie> movies, Context context, MoviesAdapterOnClickHandler clickHandler){
+        lstMovies = movies;
         this.context =context;
         mClickHandler = clickHandler;
     }
@@ -43,9 +44,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     @Override
     public void onBindViewHolder(MoviesViewHolder holder, int position) {
         Movie movie = lstMovies.get(position);
-        String imagePath = Constants.IMAGE_BASE_URL+Constants.IMAGE_SIZE+movie.getPoster_path();
+        String imagePath = Constants.IMAGE_BASE_URL+Constants.IMAGE_SIZE+movie.getPosterPath();
 
-        holder.titleTV.setText(movie.getOriginal_title());
+        holder.titleTV.setText(movie.getOriginalTitle());
         Picasso.with(context).load(imagePath).placeholder(R.drawable.film_reel).into(holder.poster);
     }
 
@@ -55,7 +56,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         return lstMovies.size();
     }
 
-    public void updateAdapter(ArrayList<Movie> movies){
+    public void updateAdapter(List<Movie> movies){
         lstMovies = movies;
         notifyDataSetChanged();
     }

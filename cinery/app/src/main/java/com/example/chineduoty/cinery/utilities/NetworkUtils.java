@@ -14,56 +14,25 @@ import java.util.Scanner;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 /**
  * Created by chineduoty on 4/13/17.
  */
 
 public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
-    private final static String API_KEY_VALUE = "YOUR API KEY";
+    public static String API_KEY_VALUE = "Your Api Key";
+    private static Retrofit retrofit = null;
 
-    public static URL buildUrl(String mode){
-        Uri builtUri = Uri.parse(Constants.BASE_URL).buildUpon()
-                .appendPath(mode)
-                .appendQueryParameter(Constants.API_KEY,API_KEY_VALUE)
-                .build();
-
-        URL url = null;
-        try{
-            url = new URL(builtUri.toString());
+    public static Retrofit getClient(){
+        if(retrofit == null){
+            retrofit = new  Retrofit.Builder()
+                    .baseUrl(Constants.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
         }
-        catch (MalformedURLException ex){
-            ex.printStackTrace();
-        }
-
-        Log.v(TAG,"Built Uri "+url);
-
-        return url;
-    }
-
-    public static String makeHttpCall(URL url) throws IOException{
-        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-        try{
-            InputStream in = connection.getInputStream();
-
-            Scanner scanner = new Scanner(in);
-            scanner.useDelimiter("\\A");
-
-            boolean hasInput = scanner.hasNext();
-            if(hasInput){
-                return scanner.next();
-            }
-            else {
-                return null;
-            }
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-            return null;
-        }
-        finally {
-            connection.disconnect();
-        }
+        return retrofit;
     }
 }
